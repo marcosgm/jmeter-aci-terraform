@@ -13,17 +13,17 @@ resource "azurerm_resource_group" "jmeter_rg" {
 }
 
 resource "azurerm_virtual_network" "jmeter_vnet" {
-  name                = "${var.PREFIX}vnet"
+  name                = var.VNET_NAME
   location            = azurerm_resource_group.jmeter_rg.location
   resource_group_name = azurerm_resource_group.jmeter_rg.name
-  address_space       = ["var.VNET_ADDRESS_SPACE"]
+  address_space       = [var.VNET_ADDRESS_SPACE]
 }
 
 resource "azurerm_subnet" "jmeter_subnet" {
-  name                 = "${var.PREFIX}subnet"
+  name                 = var.SUBNET_NAME
   resource_group_name  = azurerm_resource_group.jmeter_rg.name
   virtual_network_name = azurerm_virtual_network.jmeter_vnet.name
-  address_prefixes     = ["var.SUBNET_ADDRESS_PREFIX"]
+  address_prefixes     = [var.SUBNET_ADDRESS_PREFIX]
 
   delegation {
     name = "delegation"
@@ -158,7 +158,7 @@ resource "azurerm_container_group" "jmeter_controller" {
     commands = [
       "/bin/sh",
       "-c",
-      "cd /jmeter; /entrypoint.sh -n -J server.rmi.ssl.disable=true -t ${var.JMETER_JMX_FILE} -l ${var.JMETER_RESULTS_FILE} -e -o ${var.JMETER_DASHBOARD_FOLDER} -R ${join(",", "azurerm_container_group.jmeter_workers.*.ip_address")} ${var.JMETER_EXTRA_CLI_ARGUMENTS}",
+      "cd /jmeter; /entrypoint.sh -n -J server.rmi.ssl.disable=true -t ${var.JMETER_JMX_FILE} -l ${var.JMETER_RESULTS_FILE} -e -o ${var.JMETER_DASHBOARD_FOLDER} -R ${join(",", azurerm_container_group.jmeter_workers.*.ip_address)} ${var.JMETER_EXTRA_CLI_ARGUMENTS}",
     ]
   }
 }

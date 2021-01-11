@@ -28,15 +28,15 @@ output "jmeter_controller_ip" {
 }
 
 output "jmeter_workers_names" {
-  value = join(",", "azurerm_container_group.jmeter_workers.*.name")
+  value = join(",", azurerm_container_group.jmeter_workers.*.name)
 }
 
 output "jmeter_workers_ip_list" {
-  value = ["azurerm_container_group.jmeter_workers.*.ip_address"]
+  value = [azurerm_container_group.jmeter_workers.*.ip_address]
 }
 
 output "jmeter_workers_ips" {
-  value = join(",", "azurerm_container_group.jmeter_workers.*.ip_address")
+  value = join(",", azurerm_container_group.jmeter_workers.*.ip_address)
 }
 
 output "jmeter_results_file" {
