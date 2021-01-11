@@ -1,6 +1,6 @@
 variable "RESOURCE_GROUP_NAME" {
   type    = string
-  default = "jmeter"
+  default = "loadtest-rg"
 }
 
 variable "LOCATION" {
@@ -15,12 +15,22 @@ variable "PREFIX" {
 
 variable "VNET_ADDRESS_SPACE" {
   type    = string
-  default = "10.0.0.0/16"
+  default = "10.2.0.0/16"
 }
 
 variable "SUBNET_ADDRESS_PREFIX" {
   type    = string
-  default = "10.0.0.0/24"
+  default = "10.2.0.0/24"
+}
+
+variable "VNET_NAME" {
+  type    = string
+  default = "loadtest-vnet"
+}
+
+variable "SUBNET_NAME" {
+  type    = string
+  default = "aci-subnet"
 }
 
 variable "JMETER_WORKERS_COUNT" {
@@ -60,12 +70,12 @@ variable "JMETER_DOCKER_PORT" {
 
 variable "JMETER_ACR_NAME" {
   type    = string
-  default = ""
+  default = "loadtestacr"
 }
 
 variable "JMETER_ACR_RESOURCE_GROUP_NAME" {
   type    = string
-  default = ""
+  default = "loadtest-rg"
 }
 
 variable "JMETER_STORAGE_QUOTA_GIGABYTES" {
@@ -76,6 +86,7 @@ variable "JMETER_STORAGE_QUOTA_GIGABYTES" {
 variable "JMETER_JMX_FILE" {
   type        = string
   description = "JMX file"
+  default = "sample.jmx"
 }
 
 variable "JMETER_RESULTS_FILE" {
