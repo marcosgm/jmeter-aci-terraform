@@ -33,10 +33,9 @@ data "azurerm_storage_account" "jmeter_storage" {
   
 }
 
-resource "azurerm_storage_share" "jmeter_share" {
+data "azurerm_storage_share" "jmeter_share" {
   name                 = "jmeter"
   storage_account_name = data.azurerm_storage_account.jmeter_storage.name
-  quota                = var.JMETER_STORAGE_QUOTA_GIGABYTES
 }
 
 resource "azurerm_resource_group" "jmeter_rg" {
@@ -93,7 +92,7 @@ resource "azurerm_container_group" "jmeter_workers" {
       read_only            = true
       storage_account_name = data.azurerm_storage_account.jmeter_storage.name
       storage_account_key  = var.JMETER_STORAGE_ACCOUNT_KEY
-      share_name           = azurerm_storage_share.jmeter_share.name
+      share_name           = data.azurerm_storage_share.jmeter_share.name
     }
 
     commands = [
@@ -139,7 +138,7 @@ resource "azurerm_container_group" "jmeter_controller" {
       read_only            = false
       storage_account_name = data.azurerm_storage_account.jmeter_storage.name
       storage_account_key  = var.JMETER_STORAGE_ACCOUNT_KEY
-      share_name           = azurerm_storage_share.jmeter_share.name
+      share_name           = data.azurerm_storage_share.jmeter_share.name
     }
 
     commands = [

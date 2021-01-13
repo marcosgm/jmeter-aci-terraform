@@ -60,11 +60,12 @@ You should have the following Azure resources:
 ## CHANGES FROM ORIGINAL FORK
 
 vNET and Storage account are now pre-requisites (as well as the ACR), Terraform will expect them in place before launching the ACI jmeter tasks.
-Ensure you create them in advance and populate the following variables
+Ensure you create them in advance manually (or using the terraform module prerequisites.tf) and populate the following variables
 
 * variable "JMETER_STORAGE_ACCOUNT_NAME"   
 * variable "JMETER_STORAGE_ACCOUNT_RESOURCE_GROUP_NAME"   
-* variable "JMETER_STORAGE_ACCOUNT_KEY"   
+* variable "JMETER_STORAGE_ACCOUNT_KEY"
+* manually create a File Share named "jmeter" in that account   
 * variable "JMETER_ACR_NAME" 
 * variable "JMETER_ACR_RESOURCE_GROUP_NAME"   
 * variable "VNET_RESOURCE_GROUP_NAME"  
