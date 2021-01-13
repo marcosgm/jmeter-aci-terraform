@@ -54,9 +54,9 @@ steps:
   workingDirectory: ./terraform
   displayName: 'SETUP: Run Terraform Init'
 
-- script: terraform apply -target azurerm_storage_account.jmeter_storage -auto-approve
+- script: terraform refresh
   workingDirectory: ./terraform
-  displayName: 'SETUP: Run Terraform Apply to read storage account info (target=storage account)'
+  displayName: 'SETUP: Run Terraform Refresh to read existing storage account info'
 
 - script: |
     azcopy \
