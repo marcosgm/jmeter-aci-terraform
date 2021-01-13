@@ -69,7 +69,10 @@ resource "azurerm_container_group" "jmeter_workers" {
   os_type         = "Linux"
 
   network_profile_id = azurerm_network_profile.jmeter_net_profile.id
-
+  depends_on = [
+    azurerm_network_profile.jmeter_net_profile,
+  ] #to allow proper destruction of the network profile, must destroy ACI first
+  
   image_registry_credential {
     server   = data.azurerm_container_registry.jmeter_acr.login_server
     username = data.azurerm_container_registry.jmeter_acr.admin_username
@@ -113,6 +116,9 @@ resource "azurerm_container_group" "jmeter_controller" {
   os_type         = "Linux"
 
   network_profile_id = azurerm_network_profile.jmeter_net_profile.id
+  depends_on = [
+    azurerm_network_profile.jmeter_net_profile,
+  ] #to allow proper destruction of the network profile, must destroy ACI first
 
   restart_policy = "Never"
 
