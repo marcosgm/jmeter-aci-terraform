@@ -8,10 +8,7 @@ resource "azurerm_container_registry" "jmeter_acr" {
   resource_group_name = var.JMETER_ACR_RESOURCE_GROUP_NAME
   location = var.LOCATION
   sku                 = "Standard"
-}
-
-resource "random_id" "random" {
-  byte_length = 4
+  admin_enabled       = true
 }
 
 resource "azurerm_resource_group" "vnet_rg" {
