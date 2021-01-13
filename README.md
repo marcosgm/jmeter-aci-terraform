@@ -71,8 +71,9 @@ Ensure you create them in advance and populate the following variables
 * variable "VNET_NAME"  
 * variable "SUBNET_NAME"
 
-Also ensure the settings for the subnet delegation ("Microsoft.ContainerInstance/containerGroups") and storage account firewall (allow access from the vnet) are properly done in advance
+Also ensure the settings for the subnet delegation ("Microsoft.ContainerInstance/containerGroups") and storage account firewall (allow access from the vnet) are properly done in advance. If the vnet is not in the same subscription as the storage account and ACI, then you have to change the terraform main.tf to reference the full vnet/subnet ID that includes the subscription ID.
 
+Finally, FYI I've updated the way terraform variables are referenced due to a deprecation warning (the use of "${..}" when no other substitutions are done is now deprecated)
   
 ## Getting Started
 
