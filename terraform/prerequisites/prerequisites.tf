@@ -7,6 +7,7 @@ resource "azurerm_container_registry" "jmeter_acr" {
   name                = var.JMETER_ACR_NAME
   resource_group_name = var.JMETER_ACR_RESOURCE_GROUP_NAME
   location = var.LOCATION
+  sku                 = "Standard"
 }
 
 resource "random_id" "random" {
