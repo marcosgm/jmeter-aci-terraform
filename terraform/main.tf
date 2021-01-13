@@ -32,6 +32,12 @@ data "azurerm_storage_account" "jmeter_storage" {
   #  virtual_network_subnet_ids = ["azurerm_subnet.jmeter_subnet.id"]
   
 }
+# this is not yet supported in terraform: 
+#data "azurerm_storage_share" "jmeter_share" {
+#  name                 = "jmeter"
+#  storage_account_name = data.azurerm_storage_account.jmeter_storage.name
+#}
+
 
 resource "azurerm_resource_group" "jmeter_rg" {
   name     = var.RESOURCE_GROUP_NAME

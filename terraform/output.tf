@@ -3,20 +3,21 @@ output "resource_group_name" {
 }
 
 output "storage_account_name" {
-  value = azurerm_storage_account.jmeter_storage.name
+  value = data.azurerm_storage_account.jmeter_storage.name
 }
 
 output "storage_account_key" {
-  value     = azurerm_storage_account.jmeter_storage.primary_access_key
+  value     = data.azurerm_storage_account.jmeter_storage.primary_access_key
   sensitive = true
 }
 
 output "storage_file_share_name" {
-  value = azurerm_storage_share.jmeter_share.name
+  value = var.JMETER_STORAGE_ACCOUNT_NAME
 }
 
 output "storage_file_share_url" {
-  value = azurerm_storage_share.jmeter_share.url
+  #format: https://jmeterresults23143.file.core.windows.net/jmeter
+  value = "https://${var.JMETER_STORAGE_ACCOUNT_NAME}.file.core.windows.net/jmeter"
 }
 
 output "jmeter_controller_name" {
