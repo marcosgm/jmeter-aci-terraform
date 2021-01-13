@@ -22,21 +22,6 @@ data "azurerm_subnet" "jmeter_subnet" {
   #  service_endpoints = ["Microsoft.Storage"]
 }
 
-resource "azurerm_network_profile" "jmeter_net_profile" {
-  name                = "${var.PREFIX}netprofile"
-  location            = azurerm_resource_group.jmeter_rg.location
-  resource_group_name = azurerm_resource_group.jmeter_rg.name
-
-  container_network_interface {
-    name = "${var.PREFIX}cnic"
-
-    ip_configuration {
-      name      = "${var.PREFIX}ipconfig"
-      subnet_id = data.azurerm_subnet.jmeter_subnet.id
-    }
-  }
-}
-
 data "azurerm_storage_account" "jmeter_storage" {
   name                = var.JMETER_STORAGE_ACCOUNT_NAME
   resource_group_name = var.JMETER_STORAGE_ACCOUNT_RESOURCE_GROUP_NAME
@@ -57,6 +42,21 @@ resource "azurerm_storage_share" "jmeter_share" {
 resource "azurerm_resource_group" "jmeter_rg" {
   name     = var.RESOURCE_GROUP_NAME
   location = var.LOCATION
+}
+
+resource "azurerm_network_profile" "jmeter_net_profile" {
+  name                = "${var.PREFIX}netprofile"
+  location            = azurerm_resource_group.jmeter_rg.location
+  resource_group_name = azurerm_resource_group.jmeter_rg.name
+
+  container_network_interface {
+    name = "${var.PREFIX}cnic"
+
+    ip_configuration {
+      name      = "${var.PREFIX}ipconfig"
+      subnet_id = data.azurerm_subnet.jmeter_subnet.id
+    }
+  }
 }
 
 resource "azurerm_container_group" "jmeter_workers" {
