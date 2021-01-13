@@ -92,11 +92,6 @@ variable "JMETER_STORAGE_ACCOUNT_RESOURCE_GROUP_NAME" {
   default = "loadtest-infra-rg"
 }
 
-variable "JMETER_STORAGE_ACCOUNT_KEY" {
-  type    = string
-  default = "REPLACE_ME"
-}
-
 variable "JMETER_STORAGE_QUOTA_GIGABYTES" {
   type    = number
   default = 1

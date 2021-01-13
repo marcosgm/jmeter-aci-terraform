@@ -92,7 +92,7 @@ resource "azurerm_container_group" "jmeter_workers" {
       mount_path           = "/jmeter"
       read_only            = true
       storage_account_name = data.azurerm_storage_account.jmeter_storage.name
-      storage_account_key  = var.JMETER_STORAGE_ACCOUNT_KEY
+      storage_account_key  = data.azurerm_storage_account.jmeter_storage.primary_access_key
       share_name           = "jmeter"
     }
 
@@ -138,7 +138,7 @@ resource "azurerm_container_group" "jmeter_controller" {
       mount_path           = "/jmeter"
       read_only            = false
       storage_account_name = data.azurerm_storage_account.jmeter_storage.name
-      storage_account_key  = var.JMETER_STORAGE_ACCOUNT_KEY
+      storage_account_key  = data.azurerm_storage_account.jmeter_storage.primary_access_key
       share_name           = "jmeter"
     }
 
