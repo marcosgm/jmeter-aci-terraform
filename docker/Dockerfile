@@ -1,4 +1,4 @@
-FROM justb4/jmeter:5.1.1
+FROM justb4/jmeter:5.3
 
 # https://jmeter-plugins.org/wiki/TestPlanCheckTool/
 ENV PLAN_CHECK_PLUGIN_VERSION=2.4

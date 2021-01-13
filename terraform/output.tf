@@ -2,22 +2,22 @@ output "resource_group_name" {
   value = azurerm_resource_group.jmeter_rg.name
 }
 
-#output "storage_account_name" {
-  #value = azurerm_storage_account.jmeter_storage.name
-#}
+output "storage_account_name" {
+  value = azurerm_storage_account.jmeter_storage.name
+}
 
-#output "storage_account_key" {
-  #value     = azurerm_storage_account.jmeter_storage.primary_access_key
-  #sensitive = true
-#}
+output "storage_account_key" {
+  value     = azurerm_storage_account.jmeter_storage.primary_access_key
+  sensitive = true
+}
 
-# output "storage_file_share_name" {
-#   value = azurerm_storage_share.jmeter_share.name
-# }
+output "storage_file_share_name" {
+  value = azurerm_storage_share.jmeter_share.name
+}
 
-# output "storage_file_share_url" {
-#   value = azurerm_storage_share.jmeter_share.url
-# }
+output "storage_file_share_url" {
+  value = azurerm_storage_share.jmeter_share.url
+}
 
 output "jmeter_controller_name" {
   value = azurerm_container_group.jmeter_controller.name
