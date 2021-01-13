@@ -64,7 +64,7 @@ resource "azurerm_storage_account" "jmeter_storage" {
 
 resource "azurerm_storage_share" "jmeter_share" {
   name                 = "jmeter"
-  storage_account_name = azurerm_storage_account.jmeter_storage.name
+  storage_account_name = azurerm_storage_account.storage_rg.name
   quota                = var.JMETER_STORAGE_QUOTA_GIGABYTES
 }
 
