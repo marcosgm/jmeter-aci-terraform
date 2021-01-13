@@ -157,18 +157,32 @@ Set the following variables according to your Azure Container Registry instance:
 ```shell
 ACR_NAME=
 ACR_RESOURCE_GROUP=
+JMETER_STORAGE_ACCOUNT_NAME= 
+JMETER_STORAGE_ACCOUNT_RESOURCE_GROUP_NAME= 
+JMETER_STORAGE_ACCOUNT_KEY= 
+VNET_RESOURCE_GROUP_NAME= 
+VNET_NAME= 
+SUBNET_NAME= 
 ```
 
 Run the following commands to create the variable group `JMETER_TERRAFORM_SETTINGS` on Azure DevOps:
 
 ```shell
 az pipelines variable-group create  --name JMETER_TERRAFORM_SETTINGS --authorize \
-                                    --variables TF_VAR_JMETER_ACR_NAME=$ACR_NAME \
-                                                TF_VAR_JMETER_ACR_RESOURCE_GROUP_NAME=$ACR_RESOURCE_GROUP \
-                                                TF_VAR_JMETER_DOCKER_IMAGE=$ACR_NAME.azurecr.io/jmeter \
-                                                AZURE_SERVICE_CONNECTION_NAME="$SERVICE_CONNECTION_NAME" \
-                                                AZURE_SUBSCRIPTION_ID=$SUBSCRIPTION_ID
+    --variables TF_VAR_JMETER_ACR_NAME=$ACR_NAME \
+        TF_VAR_JMETER_ACR_RESOURCE_GROUP_NAME=$ACR_RESOURCE_GROUP \
+        TF_VAR_JMETER_DOCKER_IMAGE=$ACR_NAME.azurecr.io/jmeter \
+        JMETER_STORAGE_ACCOUNT_NAME=$JMETER_STORAGE_ACCOUNT_NAME \
+        JMETER_STORAGE_ACCOUNT_RESOURCE_GROUP_NAME=$JMETER_STORAGE_ACCOUNT_RESOURCE_GROUP_NAME \
+        JMETER_STORAGE_ACCOUNT_KEY=$JMETER_STORAGE_ACCOUNT_KEY \
+        VNET_RESOURCE_GROUP_NAME=$VNET_RESOURCE_GROUP_NAME \
+        VNET_NAME=$VNET_NAME \
+        SUBNET_NAME=$SUBNET_NAME \
+        AZURE_SERVICE_CONNECTION_NAME="$SERVICE_CONNECTION_NAME" \
+        AZURE_SUBSCRIPTION_ID=$SUBSCRIPTION_ID
 ```
+
+NOTE: the JMeter JMX file will be defined on the pipeline run. The file must be placed under the /jmeter folder of this repository, as it's referenced from the Dockerfile (see the docker build pipeline below)
 
 ### 4. Creating and Running the Docker Pipeline
 
