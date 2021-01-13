@@ -54,10 +54,6 @@ steps:
   workingDirectory: ./terraform
   displayName: 'SETUP: Run Terraform Init'
 
-- script: terraform apply -target azurerm_storage_share.jmeter_share -auto-approve
-  workingDirectory: ./terraform
-  displayName: 'SETUP: Run Terraform Apply (target=file share)'
-
 - script: |
     azcopy \
     --source $(JMETER_DIRECTORY_INPUT) \
