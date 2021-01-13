@@ -20,14 +20,14 @@ resource "azurerm_resource_group" "vnet_rg" {
 }
 
 resource "azurerm_virtual_network" "jmeter_vnet" {
-  name                = "${var.PREFIX}vnet"
+  name                = var.VNET_NAME
   location            = azurerm_resource_group.vnet_rg.location
   resource_group_name = azurerm_resource_group.vnet_rg.name
   address_space       = [var.VNET_ADDRESS_SPACE]
 }
 
 resource "azurerm_subnet" "jmeter_subnet" {
-  name                 = "${var.PREFIX}subnet"
+  name                 = var.SUBNET_NAME
   resource_group_name  = azurerm_resource_group.vnet_rg.name
   virtual_network_name = azurerm_virtual_network.jmeter_vnet.name
   address_prefixes     = [var.SUBNET_ADDRESS_PREFIX]
@@ -50,7 +50,7 @@ resource "azurerm_resource_group" "storage_rg" {
 }
 
 resource "azurerm_storage_account" "jmeter_storage" {
-  name                = "${var.PREFIX}storage${random_id.random.hex}"
+  name                = var.JMETER_STORAGE_ACCOUNT_NAME
   resource_group_name = azurerm_resource_group.storage_rg.name
   location            = azurerm_resource_group.storage_rg.location
 

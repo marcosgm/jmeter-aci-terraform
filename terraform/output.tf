@@ -11,13 +11,13 @@ output "resource_group_name" {
   #sensitive = true
 #}
 
-output "storage_file_share_name" {
-  value = azurerm_storage_share.jmeter_share.name
-}
+# output "storage_file_share_name" {
+#   value = azurerm_storage_share.jmeter_share.name
+# }
 
-output "storage_file_share_url" {
-  value = azurerm_storage_share.jmeter_share.url
-}
+# output "storage_file_share_url" {
+#   value = azurerm_storage_share.jmeter_share.url
+# }
 
 output "jmeter_controller_name" {
   value = azurerm_container_group.jmeter_controller.name
