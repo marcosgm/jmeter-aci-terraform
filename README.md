@@ -57,6 +57,23 @@ You should have the following Azure resources:
 * [Azure DevOps Project](https://docs.microsoft.com/en-us/azure/devops/organizations/projects/create-project?view=azure-devops&tabs=preview-page)
 * [Azure Container Registry (ACR)](https://azure.microsoft.com/en-us/services/container-registry/) with Admin user enabled
 
+## CHANGES FROM ORIGINAL FORK
+
+vNET and Storage account are now pre-requisites (as well as the ACR), Terraform will expect them in place before launching the ACI jmeter tasks.
+Ensure you create them in advance and populate the following variables
+
+* variable "JMETER_STORAGE_ACCOUNT_NAME"   
+* variable "JMETER_STORAGE_ACCOUNT_RESOURCE_GROUP_NAME"   
+* variable "JMETER_STORAGE_ACCOUNT_KEY"   
+* variable "JMETER_ACR_NAME" 
+* variable "JMETER_ACR_RESOURCE_GROUP_NAME"   
+* variable "VNET_RESOURCE_GROUP_NAME"  
+* variable "VNET_NAME"  
+* variable "SUBNET_NAME"
+
+Also ensure the settings for the subnet delegation ("Microsoft.ContainerInstance/containerGroups") and storage account firewall (allow access from the vnet) are properly done in advance
+
+  
 ## Getting Started
 
 ### 1. Importing this repository to Azure DevOps
