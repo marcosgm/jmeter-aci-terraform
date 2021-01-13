@@ -1,6 +1,6 @@
 variable "RESOURCE_GROUP_NAME" {
   type    = string
-  default = "loadtest-rg"
+  default = "loadtest-aci-rg"
 }
 
 variable "LOCATION" {
@@ -11,6 +11,10 @@ variable "LOCATION" {
 variable "PREFIX" {
   type    = string
   default = "jmeter"
+}
+variable "VNET_RESOURCE_GROUP_NAME" {
+  type    = string
+  default = "loadtest-vnet-rg"
 }
 
 variable "VNET_ADDRESS_SPACE" {
@@ -75,7 +79,22 @@ variable "JMETER_ACR_NAME" {
 
 variable "JMETER_ACR_RESOURCE_GROUP_NAME" {
   type    = string
-  default = "loadtest-rg"
+  default = "loadtest-infra-rg"
+}
+
+variable "JMETER_STORAGE_ACCOUNT_NAME" {
+  type    = string
+  default = "jmeterresults23143"
+}
+
+variable "JMETER_STORAGE_ACCOUNT_RESOURCE_GROUP_NAME" {
+  type    = string
+  default = "loadtest-infra-rg"
+}
+
+variable "JMETER_STORAGE_ACCOUNT_KEY" {
+  type    = string
+  default = "REPLACE_ME"
 }
 
 variable "JMETER_STORAGE_QUOTA_GIGABYTES" {

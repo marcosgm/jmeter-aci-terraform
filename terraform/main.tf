@@ -3,38 +3,23 @@ data "azurerm_container_registry" "jmeter_acr" {
   resource_group_name = var.JMETER_ACR_RESOURCE_GROUP_NAME
 }
 
-resource "random_id" "random" {
-  byte_length = 4
-}
-
-resource "azurerm_resource_group" "jmeter_rg" {
-  name     = var.RESOURCE_GROUP_NAME
-  location = var.LOCATION
-}
-
-resource "azurerm_virtual_network" "jmeter_vnet" {
+data "azurerm_virtual_network" "jmeter_vnet" {
   name                = var.VNET_NAME
-  location            = azurerm_resource_group.jmeter_rg.location
-  resource_group_name = azurerm_resource_group.jmeter_rg.name
-  address_space       = [var.VNET_ADDRESS_SPACE]
+  resource_group_name = var.VNET_RESOURCE_GROUP_NAME
 }
 
-resource "azurerm_subnet" "jmeter_subnet" {
+data "azurerm_subnet" "jmeter_subnet" {
   name                 = var.SUBNET_NAME
-  resource_group_name  = azurerm_resource_group.jmeter_rg.name
-  virtual_network_name = azurerm_virtual_network.jmeter_vnet.name
-  address_prefixes     = [var.SUBNET_ADDRESS_PREFIX]
-
-  delegation {
-    name = "delegation"
-
-    service_delegation {
-      name    = "Microsoft.ContainerInstance/containerGroups"
-      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
-    }
-  }
-
-  service_endpoints = ["Microsoft.Storage"]
+  resource_group_name  = data.azurerm_virtual_network.jmeter_vnet.resource_group_name
+  virtual_network_name = data.azurerm_virtual_network.jmeter_vnet.name
+  
+  #ensure the subnet has service delegation
+  #  service_delegation {
+  #    name    = "Microsoft.ContainerInstance/containerGroups"
+  #    actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+  
+  #and also
+  #  service_endpoints = ["Microsoft.Storage"]
 }
 
 resource "azurerm_network_profile" "jmeter_net_profile" {
@@ -47,29 +32,31 @@ resource "azurerm_network_profile" "jmeter_net_profile" {
 
     ip_configuration {
       name      = "${var.PREFIX}ipconfig"
-      subnet_id = azurerm_subnet.jmeter_subnet.id
+      subnet_id = data.azurerm_subnet.jmeter_subnet.id
     }
   }
 }
 
-resource "azurerm_storage_account" "jmeter_storage" {
-  name                = "${var.PREFIX}storage${random_id.random.hex}"
-  resource_group_name = azurerm_resource_group.jmeter_rg.name
-  location            = azurerm_resource_group.jmeter_rg.location
-
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-
-  network_rules {
-    default_action             = "Allow"
-    virtual_network_subnet_ids = ["azurerm_subnet.jmeter_subnet.id"]
-  }
+data "azurerm_storage_account" "jmeter_storage" {
+  name                = var.JMETER_STORAGE_ACCOUNT_NAME
+  resource_group_name = var.JMETER_STORAGE_ACCOUNT_RESOURCE_GROUP_NAME
+  
+  #ensure the storage account has 
+  #network_rules {
+  #  default_action             = "Allow"
+  #  virtual_network_subnet_ids = ["azurerm_subnet.jmeter_subnet.id"]
+  
 }
 
 resource "azurerm_storage_share" "jmeter_share" {
   name                 = "jmeter"
-  storage_account_name = azurerm_storage_account.jmeter_storage.name
+  storage_account_name = data.azurerm_storage_account.jmeter_storage.name
   quota                = var.JMETER_STORAGE_QUOTA_GIGABYTES
+}
+
+resource "azurerm_resource_group" "jmeter_rg" {
+  name     = var.RESOURCE_GROUP_NAME
+  location = var.LOCATION
 }
 
 resource "azurerm_container_group" "jmeter_workers" {
@@ -104,8 +91,8 @@ resource "azurerm_container_group" "jmeter_workers" {
       name                 = "jmeter"
       mount_path           = "/jmeter"
       read_only            = true
-      storage_account_name = azurerm_storage_account.jmeter_storage.name
-      storage_account_key  = azurerm_storage_account.jmeter_storage.primary_access_key
+      storage_account_name = data.azurerm_storage_account.jmeter_storage.name
+      storage_account_key  = var.JMETER_STORAGE_ACCOUNT_KEY
       share_name           = azurerm_storage_share.jmeter_share.name
     }
 
@@ -150,8 +137,8 @@ resource "azurerm_container_group" "jmeter_controller" {
       name                 = "jmeter"
       mount_path           = "/jmeter"
       read_only            = false
-      storage_account_name = azurerm_storage_account.jmeter_storage.name
-      storage_account_key  = azurerm_storage_account.jmeter_storage.primary_access_key
+      storage_account_name = data.azurerm_storage_account.jmeter_storage.name
+      storage_account_key  = var.JMETER_STORAGE_ACCOUNT_KEY
       share_name           = azurerm_storage_share.jmeter_share.name
     }
 
