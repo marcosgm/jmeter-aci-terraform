@@ -60,7 +60,7 @@ You should have the following Azure resources:
 ## CHANGES FROM ORIGINAL FORK
 
 vNET and Storage account are now pre-requisites (as well as the ACR), Terraform will expect them in place before launching the ACI jmeter tasks.
-Ensure you create them in advance manually (or using the terraform module prerequisites.tf) and populate the following variables
+Ensure you create them in advance manually (or using the terraform module prerequisites.tf, see below) and populate the following variables
 
 * variable "JMETER_STORAGE_ACCOUNT_NAME"   
 * variable "JMETER_STORAGE_ACCOUNT_RESOURCE_GROUP_NAME"   
@@ -75,7 +75,16 @@ Ensure you create them in advance manually (or using the terraform module prereq
 Also ensure the settings for the subnet delegation ("Microsoft.ContainerInstance/containerGroups") and storage account firewall (allow access from the vnet) are properly done in advance. If the vnet is not in the same subscription as the storage account and ACI, then you have to change the terraform main.tf to reference the full vnet/subnet ID that includes the subscription ID.
 
 Finally, FYI I've updated the way terraform variables are referenced due to a deprecation warning (the use of "${..}" when no other substitutions are done is now deprecated)
-  
+
+# creating pre-requisites using Terraform
+
+* cp variables.tf prerequisites/
+* cp provider.tf prerequisites/
+* cd prerequisites
+* terraform init
+* terraform plan
+* terraform apply
+
 ## Getting Started
 
 ### 1. Importing this repository to Azure DevOps

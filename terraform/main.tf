@@ -33,11 +33,6 @@ data "azurerm_storage_account" "jmeter_storage" {
   
 }
 
-data "azurerm_storage_share" "jmeter_share" {
-  name                 = "jmeter"
-  storage_account_name = data.azurerm_storage_account.jmeter_storage.name
-}
-
 resource "azurerm_resource_group" "jmeter_rg" {
   name     = var.RESOURCE_GROUP_NAME
   location = var.LOCATION
@@ -92,7 +87,7 @@ resource "azurerm_container_group" "jmeter_workers" {
       read_only            = true
       storage_account_name = data.azurerm_storage_account.jmeter_storage.name
       storage_account_key  = var.JMETER_STORAGE_ACCOUNT_KEY
-      share_name           = data.azurerm_storage_share.jmeter_share.name
+      share_name           = "jmeter"
     }
 
     commands = [
@@ -138,7 +133,7 @@ resource "azurerm_container_group" "jmeter_controller" {
       read_only            = false
       storage_account_name = data.azurerm_storage_account.jmeter_storage.name
       storage_account_key  = var.JMETER_STORAGE_ACCOUNT_KEY
-      share_name           = data.azurerm_storage_share.jmeter_share.name
+      share_name           = "jmeter"
     }
 
     commands = [
