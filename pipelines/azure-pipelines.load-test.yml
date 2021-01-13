@@ -63,7 +63,7 @@ steps:
     --source $(JMETER_DIRECTORY_INPUT) \
     --destination $(terraform output storage_file_share_url) \
     --dest-key $(terraform output storage_account_key) \
-    --recursive
+    --recursive --quiet
   workingDirectory: ./terraform
   displayName: 'SETUP: Transfer JMeter Files to Storage Account'
 
